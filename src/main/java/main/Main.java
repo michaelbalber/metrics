@@ -8,16 +8,21 @@ package main;
     public static void main(String args[]) throws InterruptedException {
       startReport();
       Meter requests = metrics.meter("requests");
+      Counter counter = metrics.counter("counter");
+      Timer timer = metrics.timer("timer");
       while(true) {
+    	  Timer.Context context1 = timer.time();
     	  requests.mark();
-    	  Thread.sleep(100);
+    	  counter.inc();
+    	  Thread.sleep((long)(10*Math.random()));
+    	  context1.stop();
       }
       //wait5Seconds();
     }
 
   static void startReport() {
       ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics)
-          .convertRatesTo(TimeUnit.SECONDS)
+          .convertRatesTo(TimeUnit.MINUTES)
           .convertDurationsTo(TimeUnit.MILLISECONDS)
           .build();
       reporter.start(5, TimeUnit.SECONDS);
