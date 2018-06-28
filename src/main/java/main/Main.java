@@ -9,8 +9,8 @@ public class Main {
 	static final MetricRegistry metrics = new MetricRegistry();
 
 	public static void main(String args[]) throws InterruptedException {
-		TimerLinkedList list = new TimerLinkedList();
-		startReport();
+		TimerLinkedList<TimeAndValue> list = new TimerLinkedList<>();
+	//	startReport();
 		Meter requests = metrics.meter("requests");
 		Counter counter = metrics.counter("counter");
 		//Timer timer = metrics.timer("timer");
@@ -18,8 +18,9 @@ public class Main {
 			//Timer.Context context1 = timer.time();
 			requests.mark();
 			counter.inc();
-			list.pushLast(System.nanoTime());
+			list.pushLast(new TimeAndValue(System.nanoTime(),(int)(100*Math.random())));
 			System.out.println(list.size());
+			System.out.println(list.getAverage());
 			Thread.sleep((long)(1000*Math.random()));
 			//  context1.stop();
 		}
