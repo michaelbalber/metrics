@@ -9,7 +9,7 @@ public class Main {
 	static final MetricRegistry metrics = new MetricRegistry();
 
 	public static void main(String args[]) throws InterruptedException {
-		TimerLinkedList<TimeAndValue> list = new TimerLinkedList<>();
+		MovingAverageQueue<TimeAndValue> list = new MovingAverageQueue<>();
 	//	startReport();
 		Meter requests = metrics.meter("requests");
 		Counter counter = metrics.counter("counter");

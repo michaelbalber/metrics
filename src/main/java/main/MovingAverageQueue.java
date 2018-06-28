@@ -3,7 +3,7 @@ package main;
 import java.util.LinkedList;
 import java.util.concurrent.PriorityBlockingQueue;
 
-public class TimerLinkedList<T extends TimeAndValue> {
+public class MovingAverageQueue<T extends TimeAndValue> {
 	PriorityBlockingQueue<T> queue= new PriorityBlockingQueue<T>();
 	double total=0;
 	public void pushLast(T element) {
