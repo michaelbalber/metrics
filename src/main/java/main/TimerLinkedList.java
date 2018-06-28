@@ -1,18 +1,20 @@
 package main;
 
 import java.util.LinkedList;
+import java.util.concurrent.PriorityBlockingQueue;
 
 public class TimerLinkedList<T extends TimeAndValue> {
-	LinkedList<T> list = new LinkedList<T>();
+	PriorityBlockingQueue<T> queue= new PriorityBlockingQueue<T>();
 	double total=0;
 	public void pushLast(T element) {
-		list.addLast(element);
+		queue.offer(element);
 		total+=element.getVal();
-		long beforeMinuteTime = System.nanoTime()-60_000_000_000L;
+		long beforeMinuteTime = System.nanoTime()-6_000_000_000L;
 		while(true) {
-			T first = list.getFirst();
+			T first = queue.peek();
 			if(beforeMinuteTime > first.getTime()) {
-				list.removeFirst();
+				System.out.println(first.getTime());
+				queue.poll();
 				total-=first.getVal();
 			}else {
 				break;
@@ -21,11 +23,11 @@ public class TimerLinkedList<T extends TimeAndValue> {
 	}
 	
 	public int size() {
-		return list.size();
+		return queue.size();
 	}
 	
 	public double getAverage() {
-		return total/list.size();
+		return total/size();
 	}
 	
 }

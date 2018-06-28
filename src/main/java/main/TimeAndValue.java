@@ -1,6 +1,6 @@
 package main;
 
-public class TimeAndValue {
+public class TimeAndValue implements Comparable<TimeAndValue>{
 	double time=0;
 	double val;
 	public double getTime() {
@@ -14,5 +14,17 @@ public class TimeAndValue {
 		this.time = time;
 		this.val = val;
 	}
+	
+	@Override
+	public int compareTo(TimeAndValue t) {
+		if(t==null) {
+			return 1;
+		}
+		
+		return (int) ( time - t.getTime());
+	}
+	
+	
+	
 	
 }

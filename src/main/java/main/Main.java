@@ -19,9 +19,9 @@ public class Main {
 			requests.mark();
 			counter.inc();
 			list.pushLast(new TimeAndValue(System.nanoTime(),(int)(100*Math.random())));
-			System.out.println(list.size());
-			System.out.println(list.getAverage());
-			Thread.sleep((long)(1000*Math.random()));
+			//System.out.println("size:"+list.size());
+			//System.out.println(list.getAverage());
+			Thread.sleep((long)(100*Math.random()));
 			//  context1.stop();
 		}
 		//wait5Seconds();
