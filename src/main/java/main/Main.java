@@ -9,7 +9,8 @@ public class Main {
 	static final MetricRegistry metrics = new MetricRegistry();
 
 	public static void main(String args[]) throws InterruptedException {
-		MovingAverageQueue<TimeAndValue> list = new MovingAverageQueue<>();
+		System.out.println("hi");
+		MovingAverageQueue<TimeAndValue> list = new MovingAverageQueue<>(6_000.0);
 	//	startReport();
 		Meter requests = metrics.meter("requests");
 		Counter counter = metrics.counter("counter");
@@ -18,7 +19,7 @@ public class Main {
 			//Timer.Context context1 = timer.time();
 			requests.mark();
 			counter.inc();
-			list.pushLast(new TimeAndValue(System.nanoTime(),(int)(100*Math.random())));
+			list.pushLastAndRemoveOld(new TimeAndValue(System.nanoTime()/1_000_000.0,(int)(100*Math.random())));
 			//System.out.println("size:"+list.size());
 			//System.out.println(list.getAverage());
 			Thread.sleep((long)(100*Math.random()));

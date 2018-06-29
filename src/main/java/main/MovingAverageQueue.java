@@ -4,30 +4,33 @@ import java.util.LinkedList;
 import java.util.concurrent.PriorityBlockingQueue;
 
 public class MovingAverageQueue<T extends TimeAndValue> {
-	PriorityBlockingQueue<T> queue= new PriorityBlockingQueue<T>();
-	double total=0;
-	public void pushLast(T element) {
+	private PriorityBlockingQueue<T> queue= new PriorityBlockingQueue<T>();
+	private double total=0;
+	private double timeWindowMillis=0;
+
+	public MovingAverageQueue(double timeWindowMillis) {
+		this.timeWindowMillis = timeWindowMillis;
+	}
+
+	public synchronized void pushLastAndRemoveOld(T element) {
 		queue.offer(element);
 		total+=element.getVal();
-		long beforeMinuteTime = System.nanoTime()-6_000_000_000L;
-		while(true) {
-			T first = queue.peek();
-			if(beforeMinuteTime > first.getTime()) {
-				System.out.println(first.getTime());
-				queue.poll();
-				total-=first.getVal();
-			}else {
-				break;
-			}
+		double beforeMinuteTime = System.nanoTime()/1_000_000.0-timeWindowMillis;
+		T head = queue.peek();
+		while(head!=null && head.getTime() < beforeMinuteTime) {
+			System.out.println(head.getTime());
+			queue.poll();
+			total-=head.getVal();
+			head = queue.peek();
 		}
 	}
-	
+
 	public int size() {
 		return queue.size();
 	}
-	
+
 	public double getAverage() {
 		return total/size();
 	}
-	
+
 }
